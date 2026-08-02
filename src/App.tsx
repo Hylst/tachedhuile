@@ -16,6 +16,7 @@ import {
   Gamepad2,
   ArrowLeft,
   ArrowRight,
+  Info,
 } from "lucide-react";
 import {
   COLORS,
@@ -100,6 +101,7 @@ export default function App() {
   const [musicOn, setMusicOn] = useState(true);
   const [sfxOn, setSfxOn] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
   const { bursts, spawn, remove } = useParticleBursts();
   const { gains, spawn: spawnGain } = useFloatingGains();
   const boardRef = useRef<HTMLDivElement>(null);
@@ -403,7 +405,7 @@ export default function App() {
       </div>
 
       {/* Top Navbar: Mode Switcher & Fullscreen */}
-      <div className="z-10 w-full max-w-4xl flex items-center justify-between gap-4 mb-6">
+      <div className="z-10 w-full max-w-4xl flex flex-wrap items-center justify-between gap-4 mb-6">
         {/* Game Mode Selector */}
         <div className="flex items-center rounded-2xl bg-slate-900/80 p-1.5 ring-1 ring-white/10 shadow-lg backdrop-blur-md">
           <button
@@ -469,8 +471,35 @@ export default function App() {
           >
             {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
           </button>
+
+          <button
+            onClick={() => setShowInfo(true)}
+            className="flex items-center justify-center h-10 w-10 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white ring-1 ring-white/10 transition-all cursor-pointer shadow-lg"
+            title="Comment ce jeu a été fait"
+          >
+            <Info className="h-4 w-4" />
+          </button>
         </div>
       </div>
+
+      {showInfo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={() => setShowInfo(false)}>
+          <div className="w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl bg-slate-900 ring-1 ring-white/10 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6 space-y-3.5 text-sm leading-relaxed text-slate-300">
+              <h3 className="text-xl font-black text-white">Comment ce jeu a été fait</h3>
+              <p><strong className="text-white">Stack :</strong> React 19, TypeScript 5.9, Tailwind CSS 4, Vite 7, compilé en un seul fichier HTML, aucune dépendance chargée depuis l'extérieur.</p>
+              <p><strong className="text-white">Graphismes :</strong> grille DOM/CSS colorée, aucun Canvas. Animations de particules, confettis et gain flottant en composants React dédiés.</p>
+              <p><strong className="text-white">Musique &amp; sons :</strong> synthétisés en direct avec l'API Web Audio, aucun fichier audio chargé.</p>
+              <p><strong className="text-white">Interactions :</strong> clic sur une couleur pour l'appliquer à la zone possédée depuis le coin, qui se propage et absorbe toute case adjacente de cette couleur.</p>
+              <p><strong className="text-white">Architecture :</strong> la logique de plateau (génération, propagation, score) vit dans un module pur sans dépendance au DOM, 24 niveaux d'aventure définis dans une table de données plus un mode libre à taille et nombre de couleurs réglables.</p>
+              <p><strong className="text-white">Algorithmes notables :</strong> propagation par remplissage de zone (la case d'origine change de couleur, puis absorbe en cascade toutes les cases adjacentes de la nouvelle couleur), génération de plateau avec 5 motifs d'obstacles rocheux qui neutralise les cases qu'ils isoleraient complètement pour garantir un niveau toujours faisable, indice calculé en testant chaque couleur possible et en gardant celle qui fait gagner le plus de terrain.</p>
+            </div>
+            <div className="border-t border-white/10 p-4 text-center">
+              <button onClick={() => setShowInfo(false)} className="px-6 py-2.5 rounded-xl font-black text-white bg-gradient-to-r from-indigo-500 to-violet-500 hover:brightness-110 active:scale-95 transition-all">Fermer</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Mode Aventure : Écran de sélection des niveaux */}
       {gameMode === "adventure" && adventureState === "select" && (
