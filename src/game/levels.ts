@@ -203,7 +203,7 @@ export const CAMPAIGN_LEVELS: Level[] = [
     limit: 32,
     obstaclePattern: "corners",
     obstacleDensity: 0.18,
-    description: "Des impasses redoutables dans les bordures du plateau.",
+    description: "Des impasses dans les bordures du plateau.",
   },
   {
     id: 18,
@@ -260,7 +260,7 @@ export const CAMPAIGN_LEVELS: Level[] = [
     limit: 38,
     obstaclePattern: "maze",
     obstacleDensity: 0.22,
-    description: "Le labyrinthe ultime de l'ascension.",
+    description: "Le labyrinthe final de l'ascension.",
   },
   {
     id: 23,
@@ -282,6 +282,6 @@ export const CAMPAIGN_LEVELS: Level[] = [
     limit: 41,
     obstaclePattern: "maze",
     obstacleDensity: 0.24,
-    description: "L'épreuve de Maître : le défi le plus épique et grandiose du jeu.",
+    description: "L'épreuve de Maître : le plateau le plus difficile du jeu.",
   },
 ];
